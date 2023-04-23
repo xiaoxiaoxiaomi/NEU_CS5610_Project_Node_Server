@@ -1,15 +1,5 @@
 import * as appointmentsDao from "../appointments/appointments-dao.js";
 
-function combineDateAndTime(timeString) {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth();
-  const day = today.getDate();
-  const [hours, minutes] = timeString.split(":");
-
-  return new Date(year, month, day, parseInt(hours, 10), parseInt(minutes, 10));
-}
-
 const AppointmentController = (app) => {
   app.get("/api/appointments", findAllAppointments);
   app.get("/api/appointments/user/:id", findAppointmentsByUserId);
@@ -32,9 +22,7 @@ const findAppointmentsByUserId = async (req, res) => {
 const createAppointment = async (req, res) => {
   const appointment = req.body;
   appointment._id = new Date().getTime() + "";
-  // appointment.time = combineDateAndTime(appointment.time);
-  const localDateTime = combineDateAndTime(appointment.time);
-  appointment.time = localDateTime.toISOString().slice(0, 19);
+  console.log(appointment);
   const newAppointment = await appointmentsDao.createAppointment(appointment);
   res.json(newAppointment);
 };
@@ -48,7 +36,6 @@ const deleteAppointment = async (req, res) => {
 const updateAppointment = async (req, res) => {
   const appointmentId = req.params.id;
   const appointment = req.body;
-  appointment.time = combineDateAndTime(appointment.time);
   const status = await appointmentsDao.updateAppointment(
     appointmentId,
     appointment
