@@ -22,7 +22,6 @@ const findAppointmentsByUserId = async (req, res) => {
 const createAppointment = async (req, res) => {
   const appointment = req.body;
   appointment._id = new Date().getTime() + "";
-  console.log(appointment);
   const newAppointment = await appointmentsDao.createAppointment(appointment);
   res.json(newAppointment);
 };
