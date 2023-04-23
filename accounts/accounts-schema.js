@@ -14,8 +14,27 @@ const accountsSchema = new mongoose.Schema(
       type: String,
       enum: ["admin", "user", "cook", "waiter"],
     },
+    attributes: {},
   },
   { collection: "accounts" }
 );
+
+const userSchema = new mongoose.Schema({
+  favorates: String,
+});
+
+const cookSchema = new mongoose.Schema({
+  specialty: String,
+});
+
+const waiterSchema = new mongoose.Schema({
+  shift: String,
+});
+
+accountsSchema.add({
+  user: userSchema,
+  cook: cookSchema,
+  waiter: waiterSchema,
+});
 
 export default accountsSchema;
